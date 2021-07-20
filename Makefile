@@ -9,3 +9,6 @@ build:
 
 upd:
 	@docker-compose up -d --build
+
+fix:
+	@docker-compose exec php php vendor/bin/php-cs-fixer fix src

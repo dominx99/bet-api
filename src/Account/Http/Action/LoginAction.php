@@ -8,9 +8,10 @@ use App\Account\Domain\Repository\UserRepositoryInterface;
 
 final class LoginAction
 {
-    public function __construct (
+    public function __construct(
         private UserRepositoryInterface $userRepository,
-    ) {}
+    ) {
+    }
 
     public function __invoke()
     {

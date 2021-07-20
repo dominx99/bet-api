@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace App\Domain;
 
@@ -17,7 +17,7 @@ final class Bet
         $this->members = new ArrayCollection();
     }
 
-    public function setTitle(string $title): Void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }

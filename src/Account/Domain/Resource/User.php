@@ -2,9 +2,9 @@
 
 namespace App\Account\Domain\Resource;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass=\App\Account\Domain\Repository\UserRepositoryInterface::class)
