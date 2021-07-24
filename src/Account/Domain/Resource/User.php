@@ -4,12 +4,13 @@ namespace App\Account\Domain\Resource;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=\App\Account\Domain\Repository\UserRepositoryInterface::class)
  */
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Id
@@ -36,6 +37,11 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $name;
+
+    public function __construct()
+    {
+        $this->roles = new ArrayCollection();
+    }
 
     public function setId(string $id): void
     {
@@ -67,19 +73,22 @@ class User implements UserInterface
         return $this->email;
     }
 
-    public function getRoles(): array
+    public function getRoles(): ArrayCollection
     {
-        return (array) $this->roles;
+        $roles = $this->roles;
+        $roles->add('ROLE_USER');
+
+        return new ArrayCollection(array_unique((array) $this->roles));
     }
 
-    public function setRoles(array $roles): void
+    public function setRoles(ArrayCollection $roles): void
     {
         $this->roles = $roles;
     }
 
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return $this->password;
     }
 
     public function setPassword(string $password): void
@@ -92,6 +101,7 @@ class User implements UserInterface
      */
     public function getSalt()
     {
+        return null;
     }
 
     /**
@@ -104,5 +114,10 @@ class User implements UserInterface
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
     }
 }
