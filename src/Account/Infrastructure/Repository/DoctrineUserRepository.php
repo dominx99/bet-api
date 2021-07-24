@@ -15,7 +15,7 @@ use App\Account\Domain\Resource\User;
  * @method \App\Account\Domain\Resource\User[]    findAll()
  * @method \App\Account\Domain\Resource\User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+class DoctrineUserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
