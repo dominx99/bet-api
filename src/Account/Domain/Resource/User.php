@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass=\App\Account\Domain\Repository\UserRepositoryInterface::class)
+ * @ORM\Entity(repositoryClass=\App\Account\Infrastructure\Repository\DoctrineUserRepository::class)
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -26,7 +26,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @ORM\Column(type="json")
      */
-    private ArrayCollection $roles;
+    private array $roles;
 
     /**
      * @ORM\Column(type="string")
@@ -37,11 +37,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $name;
-
-    public function __construct()
-    {
-        $this->roles = new ArrayCollection();
-    }
 
     public function setId(string $id): void
     {
@@ -73,15 +68,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function getRoles(): ArrayCollection
+    public function getRoles(): array
     {
         $roles = $this->roles;
-        $roles->add('ROLE_USER');
+        $roles[] = 'ROLE_USER';
 
-        return new ArrayCollection(array_unique((array) $this->roles));
+        return array_unique($roles);
     }
 
-    public function setRoles(ArrayCollection $roles): void
+    public function setRoles(array $roles): void
     {
         $this->roles = $roles;
     }

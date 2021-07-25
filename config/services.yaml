@@ -12,12 +12,18 @@ services:
 
     App\:
         resource: '../src/'
-        exclude:
-            - '../src/Kernel.php'
 
-    App\Bet\Http\Action\UpdateBetController:
-      tags: [controller.service_arguments]
-      public: true
+    framework:
+        namespace: App\
+        resource: '../framework/'
+        exclude:
+            - '../framework/Kernel.php'
 
     App\DataFixtures\UserFixtures:
-      tags: [doctrine.fixture.orm]
+        tags: [doctrine.fixture.orm]
+
+    App\EventListener\ExceptionListener:
+      tags:
+        - name: 'kernel.event_listener'
+          event: 'kernel.exception'
+          method: 'onKernelException'

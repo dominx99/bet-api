@@ -1,7 +1,11 @@
-controllers:
-    resource: ../../src/Bet/Http/Action/
+account_actions:
+    resource: '../../src/Account/Http/Action/'
+    type: annotation
+
+bet_controllers:
+    resource: '../../src/Bet/Http/Action/'
     type: annotation
 
 kernel:
-    resource: ../../src/Kernel.php
+    resource: ../../framework/Kernel.php
     type: annotation

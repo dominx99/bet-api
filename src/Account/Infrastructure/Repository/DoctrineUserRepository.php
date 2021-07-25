@@ -2,12 +2,13 @@
 
 namespace App\Account\Infrastructure\Repository;
 
+use App\Account\Domain\Repository\UserRepositoryInterface;
+use App\Account\Domain\Resource\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
-use App\Account\Domain\Resource\User;
 
 /**
  * @method \App\Account\Domain\Resource\User|null find($id, $lockMode = null, $lockVersion = null)
@@ -15,7 +16,7 @@ use App\Account\Domain\Resource\User;
  * @method \App\Account\Domain\Resource\User[]    findAll()
  * @method \App\Account\Domain\Resource\User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DoctrineUserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+class DoctrineUserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, UserRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

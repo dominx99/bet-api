@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Resource;
+namespace App\Bet\Domain\Resource;
 
 use Doctrine\Common\Collections\ArrayCollection;
 
