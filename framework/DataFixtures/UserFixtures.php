@@ -2,17 +2,18 @@
 
 namespace App\DataFixtures;
 
+use App\Account\Domain\Resource\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use App\Account\Domain\Resource\User;
-use Symfony\Component\Uid\UuidV4;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Uid\UuidV4;
 
 class UserFixtures extends Fixture
 {
     public function __construct(
         private UserPasswordHasherInterface $passwordHasher
-    ) {}
+    ) {
+    }
 
     public function load(ObjectManager $manager)
     {

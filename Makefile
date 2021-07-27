@@ -12,6 +12,7 @@ upd:
 
 fix:
 	@docker-compose exec php php vendor/bin/php-cs-fixer fix src
+	@docker-compose exec php php vendor/bin/php-cs-fixer fix framework
 
 cache:
 	@docker-compose exec php php bin/console cache:clear
