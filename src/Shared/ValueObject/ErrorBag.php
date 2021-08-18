@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Shared\ValueObject;
 
-final class ErrorBag
+use Countable;
+
+final class ErrorBag implements Countable
 {
     public function __construct(
         private array $items = [],
@@ -30,5 +32,10 @@ final class ErrorBag
     public function all(): array
     {
         return $this->items;
+    }
+
+    public function count(): int
+    {
+        return count($this->items);
     }
 }

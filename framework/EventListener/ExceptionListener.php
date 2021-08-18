@@ -21,7 +21,7 @@ class ExceptionListener
 
         if ($exception instanceof ValidationException) {
             $event->setResponse(new JsonResponse([
-                'errors' => $exception->getMessages(),
+                'messages' => $exception->getMessages(),
             ], $exception->getCode()));
         }
     }

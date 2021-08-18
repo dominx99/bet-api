@@ -33,4 +33,17 @@ class DoctrineUserRepository extends ServiceEntityRepository implements Password
         $this->_em->persist($user);
         $this->_em->flush();
     }
+
+    public function existByEmail(string $email): bool
+    {
+        return (bool) $this
+            ->getEntityManager()
+            ->createQueryBuilder()
+            ->select('COUNT(u.id) as exist')
+            ->from(User::class, 'u')
+            ->where('u.email = :email')
+            ->setParameter('email', $email)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

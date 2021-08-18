@@ -8,7 +8,6 @@ use App\Shared\Domain\Exception\ValidationException;
 use App\Shared\Domain\Validator\ValidatorInterface;
 use App\Shared\ValueObject\ErrorBag;
 use App\Shared\ValueObject\ValidationResult;
-use RuntimeException;
 use Symfony\Component\Validator\Validator\ValidatorInterface as SymfonyValidatorInterface;
 
 final class SymfonyValidator implements ValidatorInterface
@@ -23,11 +22,11 @@ final class SymfonyValidator implements ValidatorInterface
         $errorBag = new ErrorBag();
 
         foreach ($rules as $ruleKey => $constraints) {
-            if (!in_array($ruleKey, array_keys($parameters))) {
-                throw new RuntimeException(sprintf('Parameter with %s key does not exist.', $ruleKey));
-            }
+            $violations = $this->validator->validate($parameters[$ruleKey] ?? null, $constraints);
 
-            $violations = $this->validator->validate($parameters[$ruleKey], $constraints);
+            if (!$violations->count()) {
+                continue;
+            }
 
             $errors = [];
 

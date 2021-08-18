@@ -20,4 +20,9 @@ final class ValidationResult
     {
         return $this->errors;
     }
+
+    public function isValid(): bool
+    {
+        return 0 === count($this->errors);
+    }
 }
