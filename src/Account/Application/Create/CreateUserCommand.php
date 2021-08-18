@@ -9,8 +9,8 @@ final class CreateUserCommand
     public function __construct(
         private string $userId,
         private string $email,
-        private string $name,
         private string $password,
+        private string $name,
     ) {
     }
 
