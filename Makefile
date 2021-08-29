@@ -13,6 +13,13 @@ upd:
 fix:
 	@docker-compose exec php php vendor/bin/php-cs-fixer fix src
 	@docker-compose exec php php vendor/bin/php-cs-fixer fix framework
+	@docker-compose exec php php vendor/bin/php-cs-fixer fix tests
 
 cache:
 	@docker-compose exec php php bin/console cache:clear
+
+tt:
+	@docker-compose exec php php bin/phpunit
+
+migrate:
+	@docker-compose exec php php bin/console doctrine:migrations:migrate

@@ -6,7 +6,6 @@ namespace App\Account\Http\Action;
 
 use App\Account\Application\Create\CreateUserCommand;
 use App\Account\Domain\Validation\CreateUserValidatorInterface;
-use App\Account\Domain\Validation\Rules\User\CreateUserRules;
 use App\Shared\Domain\Validator\ValidatorInterface;
 use App\Shared\Http\Response\SuccessResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,7 +27,7 @@ final class RegisterAction extends AbstractController
     {
         $params = $request->request->all();
 
-        $this->createUserValidator->validate($params, CreateUserRules::getRules());
+        $this->createUserValidator->validate($params);
 
         $this->dispatchMessage(new CreateUserCommand(
             (string) new UuidV4(),
