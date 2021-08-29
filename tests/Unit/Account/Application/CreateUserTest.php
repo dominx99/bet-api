@@ -20,7 +20,7 @@ final class CreateUserTest extends BaseTestCase
     /**
      * @test
      * @dataProvider userDataProvider
-    */
+     */
     public function thatUserIsCreated($email, $password, $name)
     {
         $userId = (string) new UuidV4();
