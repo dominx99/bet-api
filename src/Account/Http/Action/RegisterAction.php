@@ -6,7 +6,6 @@ namespace App\Account\Http\Action;
 
 use App\Account\Application\Create\CreateUserCommand;
 use App\Account\Domain\Validation\CreateUserValidatorInterface;
-use App\Shared\Domain\Validator\ValidatorInterface;
 use App\Shared\Http\Response\SuccessResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,7 +16,6 @@ use Symfony\Component\Uid\UuidV4;
 final class RegisterAction extends AbstractController
 {
     public function __construct(
-        private ValidatorInterface $validator,
         private CreateUserValidatorInterface $createUserValidator,
     ) {
     }

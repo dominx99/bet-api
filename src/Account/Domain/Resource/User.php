@@ -2,7 +2,6 @@
 
 namespace App\Account\Domain\Resource;
 
-use App\Shared\Infrastructure\Event\CanBeRecorded;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -14,8 +13,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    use CanBeRecorded;
-
     /**
      * @ORM\Id
      * @ORM\Column(type="uuid")

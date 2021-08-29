@@ -6,6 +6,7 @@ namespace App\Tests\Unit\Account\Application;
 
 use App\Account\Application\Create\CreateUserCommand;
 use App\Account\Application\Create\CreateUserCommandHandler;
+use App\Account\Domain\Event\UserCreated;
 use App\Account\Domain\Repository\UserRepositoryInterface;
 use App\Account\Domain\Resource\User;
 use App\Account\Domain\Role\UserRoleEnum;
@@ -16,14 +17,14 @@ use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 final class CreateUserTest extends BaseTestCase
 {
-    /** @test */
-    public function thatUserIsCreatedMock()
+    /**
+     * @test
+     * @dataProvider userDataProvider
+    */
+    public function thatUserIsCreated($email, $password, $name)
     {
         $userId = (string) new UuidV4();
-        $email = 'example@test.com';
-        $password = 'test';
-        $hashedPassword = 'hashedPassword';
-        $name = 'Test User';
+        $hashedPassword = base64_encode($password);
 
         $expectedUser = new User();
         $expectedUser->setId($userId);
@@ -46,11 +47,14 @@ final class CreateUserTest extends BaseTestCase
             ->method('hashPassword')
             ->willReturn($hashedPassword);
 
+        $expectedUserCreated = new UserCreated($userId);
+
         $eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 
         $eventDispatcher
             ->expects($this->once())
-            ->method('dispatch');
+            ->method('dispatch')
+            ->with($expectedUserCreated);
 
         $createUserHandler = new CreateUserCommandHandler(
             $userRepository,
@@ -64,5 +68,14 @@ final class CreateUserTest extends BaseTestCase
             $password,
             $name,
         ));
+    }
+
+    public function userDataProvider(): array
+    {
+        return [
+            ['example@test.com', 'password', 'Test name'],
+            ['example1@test.com', '!p$ssw0rd914', 'Test'],
+            ['example2@test.com', 'some-pass', 'Test3'],
+        ];
     }
 }
