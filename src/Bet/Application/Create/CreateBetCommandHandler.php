@@ -7,9 +7,9 @@ namespace App\Bet\Application\Create;
 use App\Bet\Domain\Event\BetCreated;
 use App\Bet\Domain\Repository\BetRepositoryInterface;
 use App\Bet\Domain\Resource\Bet;
+use App\Bet\Domain\Validation\CreateBetValidatorInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
-use App\Bet\Domain\Validation\CreateBetValidatorInterface;
 
 final class CreateBetCommandHandler implements MessageHandlerInterface
 {

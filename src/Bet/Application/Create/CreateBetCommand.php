@@ -15,19 +15,9 @@ final class CreateBetCommand
     ) {
     }
 
-    public function setBetId(string $betId): void
-    {
-        $this->betId = $betId;
-    }
-
     public function getBetId(): string
     {
         return $this->betId;
-    }
-
-    public function setUserId(string $userId): void
-    {
-        $this->userId = $userId;
     }
 
     public function getUserId(): string
@@ -35,29 +25,14 @@ final class CreateBetCommand
         return $this->userId;
     }
 
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
-    }
-
     public function getTitle(): string
     {
         return $this->title;
     }
 
-    public function setStartDate(string $startDate): void
-    {
-        $this->startDate = $startDate;
-    }
-
     public function getStartDate(): string
     {
         return $this->startDate;
-    }
-
-    public function setEndDate(?string $endDate): void
-    {
-        $this->endDate = $endDate;
     }
 
     public function getEndDate(): ?string

@@ -1,3 +1,6 @@
+compose_file := "docker-compose.yml"
+php_service := "php"
+
 up:
 	@docker-compose up -d
 
@@ -20,6 +23,10 @@ cache:
 
 tt:
 	@docker-compose exec php php bin/phpunit
+
+ttc:
+	@docker-compose -f $(compose_file) exec $(php_service) sh -c "php bin/phpunit --coverage-html .coverage $(CMD)"
+	@brave ".coverage/index.html"
 
 migrate:
 	@docker-compose exec php php bin/console doctrine:migrations:migrate
