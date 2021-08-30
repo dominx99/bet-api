@@ -12,13 +12,13 @@ doctrine:
         mappings:
             Account:
                 is_bundle: false
-                type: annotation
+                type: attribute
                 dir: '%kernel.project_dir%/src/Account/Domain/Resource'
                 prefix: 'App\Account\Domain\Resource'
                 alias: App
             Bet:
                 is_bundle: false
-                type: annotation
+                type: attribute
                 dir: '%kernel.project_dir%/src/Bet/Domain/Resource'
                 prefix: 'App\Bet\Domain\Resource'
                 alias: App

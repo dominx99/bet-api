@@ -2,42 +2,44 @@
 
 namespace App\Account\Domain\Resource;
 
-use Doctrine\ORM\Mapping as ORM;
+use App\Account\Infrastructure\Repository\DoctrineUserRepository;
+use App\Bet\Domain\Resource\Bet;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\InverseJoinColumn;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\JoinTable;
+use Doctrine\ORM\Mapping\ManyToMany;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-/**
- * @ORM\Entity(repositoryClass=\App\Account\Infrastructure\Repository\DoctrineUserRepository::class)
- * @UniqueEntity("email")
- */
+#[Entity(repositoryClass: DoctrineUserRepository::class, readOnly: false)]
+#[UniqueEntity('email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="uuid")
-     */
+    #[Id, Column(type: 'uuid')]
     private string $id;
 
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
+    #[Column(type: 'string', length: 180, unique: true)]
     private string $email;
 
-    /**
-     * @ORM\Column(type="json")
-     */
+    #[Column(type: 'json')]
     private array $roles;
 
-    /**
-     * @ORM\Column(type="string")
-     */
+    #[Column(type: 'string', length: 255)]
     private $password;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[Column(type: 'string', length: 255)]
     private $name;
+
+    #[ManyToMany(targetEntity: Bet::class, inversedBy: 'members')]
+    #[JoinTable(name: 'bet_user')]
+    #[JoinColumn(name: 'user_id', referencedColumnName: 'id')]
+    #[InverseJoinColumn(name: 'bet_id', referencedColumnName: 'id')]
+    private Collection $bets;
 
     public function setId(string $id): void
     {

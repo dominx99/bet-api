@@ -9,12 +9,10 @@ use App\Bet\Application\Create\CreateBetCommandHandler;
 use App\Bet\Domain\Event\BetCreated;
 use App\Bet\Domain\Repository\BetRepositoryInterface;
 use App\Bet\Domain\Resource\Bet;
-use App\Bet\Domain\Validation\CreateBetValidatorInterface;
-use App\Shared\ValueObject\ErrorBag;
-use App\Shared\ValueObject\ValidationResult;
 use App\Tests\BaseTestCase;
 use Symfony\Component\Uid\UuidV4;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
+use Carbon\Carbon;
 
 final class CreateBetTest extends BaseTestCase
 {
@@ -31,8 +29,12 @@ final class CreateBetTest extends BaseTestCase
 
         $expectedBet->setId($betId);
         $expectedBet->setTitle($title);
-        $expectedBet->setStartDate($startDate);
-        $expectedBet->setEndDate($endDate);
+        $expectedBet->setStartDate(Carbon::createFromFormat('Y-m-d H:i:s', $startDate));
+        $expectedBet->setEndDate(
+            $endDate ?
+                Carbon::createFromFormat('Y-m-d H:i:s', $endDate) :
+                null
+        );
 
         $betRepository = $this->createMock(BetRepositoryInterface::class);
 
@@ -50,17 +52,9 @@ final class CreateBetTest extends BaseTestCase
             ->method('dispatch')
             ->with($expectedBetCreated);
 
-        $createBetValidator = $this->createMock(CreateBetValidatorInterface::class);
-
-        $createBetValidator
-            ->expects($this->once())
-            ->method('validate')
-            ->willReturn(new ValidationResult(new ErrorBag()));
-
         $createBetHandler = new CreateBetCommandHandler(
             $betRepository,
             $eventDispatcher,
-            $createBetValidator,
         );
 
         ($createBetHandler)(new CreateBetCommand(
@@ -75,8 +69,8 @@ final class CreateBetTest extends BaseTestCase
     public function betDataProvider(): array
     {
         return [
-            ['Test bet', '2021-07-01', '2021-09-01'],
-            ['Test challenge', '2021-07-01', null],
+            ['Test bet', '2021-07-01 01:01:01', '2021-09-01 01:01:01'],
+            ['Test challenge', '2021-07-01 01:01:01', null],
         ];
     }
 }

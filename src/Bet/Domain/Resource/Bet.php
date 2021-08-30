@@ -4,24 +4,33 @@ declare(strict_types=1);
 
 namespace App\Bet\Domain\Resource;
 
+use App\Account\Domain\Resource\User;
+use App\Bet\Domain\Repository\BetRepositoryInterface;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Id;
+use Doctrine\ORM\Mapping\ManyToMany;
 
+#[Entity(repositoryClass: BetRepositoryInterface::class, readOnly: false)]
 final class Bet
 {
+    #[Id, Column(type: 'uuid')]
     private string $id;
 
+    #[Column(type: 'string', length: 255)]
     private string $title;
 
-    private ArrayCollection $members;
+    #[ManyToMany(targetEntity: User::class, mappedBy: 'bets')]
+    private Collection $members;
 
-    private $startDate;
+    #[Column(type: 'datetime')]
+    private DateTimeInterface $startDate;
 
-    private $endDate;
-
-    public function __construct()
-    {
-        $this->members = new ArrayCollection();
-    }
+    #[Column(type: 'datetime', nullable: true)]
+    private ?DateTimeInterface $endDate;
 
     public function setId(string $id): void
     {
@@ -43,22 +52,22 @@ final class Bet
         return $this->members;
     }
 
-    public function setStartDate($startDate): void
+    public function setStartDate(DateTimeInterface $startDate): void
     {
         $this->startDate = $startDate;
     }
 
-    public function getStartDate()
+    public function getStartDate(): DateTimeInterface
     {
         return $this->startDate;
     }
 
-    public function setEndDate($endDate): void
+    public function setEndDate(?DateTimeInterface $endDate): void
     {
         $this->endDate = $endDate;
     }
 
-    public function getEndDate()
+    public function getEndDate(): ?DateTimeInterface
     {
         return $this->endDate;
     }
@@ -73,7 +82,7 @@ final class Bet
         return $this->title;
     }
 
-    public function addMember(User $uesr): void
+    public function addMember(User $user): void
     {
         $this->members->add($user);
     }
